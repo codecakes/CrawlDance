@@ -1,3 +1,17 @@
+#####################################################################
+# Web Crawler
+# ------------------------------------------------------------------
+# Description:
+# ------------------------------------------------------------------
+# This is a web crawler in a custom N-ary Tree format that: 
+# - parses a given url.
+# - Stores parsed url as children of the parent url.
+# - Repeats the same step for each Url Node.
+# ------------------------------------------------------------------
+# Original Author: Akul Mathur - @codecakes
+# Maintainer(s):
+# - Akul Mathur - @codecakes
+#####################################################################
 
 from collections import deque
 
@@ -56,7 +70,7 @@ def parseBLL(currentBlock, stack, result):
         #print "scanBLL blockNext: {}".format(block)
     return
 
-def parse(root, max_level):
+def parse(root, max_level, numlinks):
     #Scan by Level Order Traversal
     #Each Block is a TreeNode BLL in itself
     stack = deque()
@@ -74,10 +88,11 @@ def parse(root, max_level):
         #print currentBlock.block_head
         parseBLL(currentBlock, stack, result)  #~O(N)
         #print result
+        if numlinks > 0 and len(result) >= numlinks: break
     return root, result
 
 
-def crawl_dance(url, max_level = 2):
+def crawl_dance(url, max_level = 2, numlinks = 0):
     '''
     #Pop the TreeNode/BLL
     #Scan and yield each Node Per Block
@@ -85,13 +100,15 @@ def crawl_dance(url, max_level = 2):
     #Scan and push All firstChild Nodes in curNode to Stack
     '''
     root = nTree(url)
-    return parse(root, max_level)
+    return parse(root, max_level, numlinks)
 
 if __name__ == "__main__":
     import sys
     
     url = sys.argv[1]
     maxlevel = int(sys.argv[2])
+    numlinks = int(sys.argv[3])
     
-    print "Crawling for url: {} at a max depth of: {}".format(url, maxlevel)
-    print crawl_dance(url, max_level=maxlevel)
+    print "Crawling for url: {} at a max depth of: {} for a total # of links:{}".format(url, maxlevel, numlinks)
+    
+    print crawl_dance(url, max_level=maxlevel, numlinks = numlinks)
