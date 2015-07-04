@@ -94,4 +94,4 @@ if __name__ == "__main__":
     maxlevel = int(sys.argv[2])
     
     print "Crawling for url: {} at a max depth of: {}".format(url, maxlevel)
-    print crawl_dance(url)
+    print crawl_dance(url, max_level=maxlevel)
