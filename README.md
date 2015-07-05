@@ -38,11 +38,14 @@ In the print screen below, the format is like this:
 
 ![4](http://picpaste.com/pics/py9F6Mse.1436088317.png)
 
+![5](http://picpaste.com/pics/0rYtEIgS.1436088865.png)
+
 This is all without optimization.
 Cythonizing variables C style usually yields speed gains 10x. using numpy for  contingent arrays may increase retrieval time and overall speed.
 
 ### TODOs:
  - Clean code
+ - Add inline doc
  - Replace result with numpy array
  - Cythonze helper libs
  - Use something like joblib to parallelize parsing in parseurl
