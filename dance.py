@@ -14,7 +14,7 @@
 #####################################################################
 
 from collections import deque
-
+import time
 from lxml.html import fromstring
 import requests
 
@@ -71,6 +71,16 @@ def parseBLL(currentBlock, stack, result):
     return
 
 def parse(root, max_level, numlinks):
+    """
+    Params:
+        - root: The nTree that takes in a single Url
+        - max_level: Max depth to go in a tree where parsing stops. >0
+        - numlinks: Max number of links to parse. Stops when reached.
+                    Can pass infinitely if passed 0.
+    Returns:
+        - root: All links can be scanned through the nTree.
+        - result: The resulting crawled url links.
+    """
     #Scan by Level Order Traversal
     #Each Block is a TreeNode BLL in itself
     stack = deque()
@@ -88,6 +98,15 @@ def parse(root, max_level, numlinks):
         #print currentBlock.block_head
         parseBLL(currentBlock, stack, result)  #~O(N)
         #print result
+        
+        #start = time.time()
+        #print len(result)
+        #print "len time:{}".format(time.time()-start)
+        
+        #start = time.time()
+        #print root.scanSize()
+        #print "scanSize time:{}".format(time.time()-start)
+        
         if numlinks > 0 and len(result) >= numlinks: break
     return root, result
 
@@ -98,6 +117,7 @@ def crawl_dance(url, max_level = 2, numlinks = 0):
     #Scan and yield each Node Per Block
     #add all child url links in the curNode
     #Scan and push All firstChild Nodes in curNode to Stack
+    See function `parse` for more info.
     '''
     root = nTree(url)
     return parse(root, max_level, numlinks)
